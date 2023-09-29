@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/students")
+@RequestMapping(value = "/student")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class StudentController {
