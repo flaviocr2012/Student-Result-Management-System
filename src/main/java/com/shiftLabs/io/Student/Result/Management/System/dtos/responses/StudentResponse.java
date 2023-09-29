@@ -16,8 +16,6 @@ import java.time.LocalDate;
 @Builder
 public class StudentResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;

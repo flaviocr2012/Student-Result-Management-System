@@ -25,8 +25,4 @@ public class CourseController {
         return new ResponseEntity<>(savedCourse.getStatusCode());
     }
 
-
-
-
-
 }

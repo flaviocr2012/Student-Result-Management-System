@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,5 +21,8 @@ public class Course {
     private Long id;
 
     private String courseName;
+
+    @OneToMany(mappedBy = "course")
+    private Set<Result> results;
 
 }

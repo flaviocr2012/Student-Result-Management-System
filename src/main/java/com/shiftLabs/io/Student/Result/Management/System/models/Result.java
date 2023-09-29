@@ -20,4 +20,8 @@ public class Result {
 
     @Enumerated(EnumType.STRING)
     private ScoreEnum score;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
 }
