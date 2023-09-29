@@ -1,4 +1,4 @@
-package com.shiftLabs.io.Student.Result.Management.System.dtos;
+package com.shiftLabs.io.Student.Result.Management.System.dtos.responses;
 
 import com.shiftLabs.io.Student.Result.Management.System.enums.ScoreEnum;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResultDto {
+public class ResultResponse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
