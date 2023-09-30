@@ -4,7 +4,7 @@ import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.CourseReq
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.CourseResponse;
 import com.shiftLabs.io.Student.Result.Management.System.services.CourseService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +13,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/course")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class CourseController {
 
     private final CourseService courseService;
+
+    @Autowired
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<CourseResponse> createCourse(

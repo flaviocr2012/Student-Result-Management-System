@@ -4,7 +4,7 @@ import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.ResultReq
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.ResultResponse;
 import com.shiftLabs.io.Student.Result.Management.System.services.ResultService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +13,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/result")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ResultController {
 
     private final ResultService resultService;
+
+    @Autowired
+    public ResultController(ResultService resultService) {
+        this.resultService = resultService;
+    }
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<ResultResponse> createResult(

@@ -1,8 +1,5 @@
 package com.shiftLabs.io.Student.Result.Management.System.dtos.responses;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

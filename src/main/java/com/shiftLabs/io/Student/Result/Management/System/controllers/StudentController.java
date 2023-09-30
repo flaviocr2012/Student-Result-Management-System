@@ -5,6 +5,7 @@ import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentR
 import com.shiftLabs.io.Student.Result.Management.System.services.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/student")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class StudentController {
 
-    private StudentService studentService;
+    private final StudentService studentService;
+
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<StudentResponse> createStudent(

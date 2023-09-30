@@ -1,8 +1,8 @@
 package com.shiftLabs.io.Student.Result.Management.System.dtos.requests;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.shiftLabs.io.Student.Result.Management.System.configs.CustomLocalDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +22,8 @@ public class StudentRequest {
 
     private String familyName;
 
+    @JsonFormat(pattern = "MM/dd/yyyy")
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate dateOfBirth;
 
     private String emailAddress;
