@@ -2,6 +2,7 @@ package com.shiftLabs.io.Student.Result.Management.System.services;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.StudentRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
+import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +29,8 @@ public class StudentService {
             throw new IllegalArgumentException("Student must be at least 10 years old");
         }
 
-        var student = mapStudent(studentRequest);
-        var savedStudent = studentRepository.save(student);
+        StudentResponse student = mapStudent(studentRequest);
+        Student savedStudent = (Student) studentRepository.save(student);
         return modelMapper.map(savedStudent, StudentResponse.class);
 
     }
@@ -43,5 +46,12 @@ public class StudentService {
 
     private StudentResponse mapStudent(StudentRequest studentRequest) {
         return modelMapper.map(studentRequest, StudentResponse.class);
+    }
+
+    public List<StudentResponse> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(student -> modelMapper.map(student, StudentResponse.class))
+                .collect(Collectors.toList());
     }
 }

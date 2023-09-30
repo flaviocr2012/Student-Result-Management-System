@@ -2,12 +2,15 @@ package com.shiftLabs.io.Student.Result.Management.System.controllers;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.ResultRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.ResultResponse;
+import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
 import com.shiftLabs.io.Student.Result.Management.System.services.ResultService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/result")
@@ -22,6 +25,12 @@ public class ResultController {
             @RequestBody @Valid ResultRequest resultRequest) {
         var savedResult = resultService.registerResult(resultRequest);
         return new ResponseEntity<>(savedResult, HttpStatus.CREATED);
+    }
+
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<ResultResponse>> getAllResults(){
+        List<ResultResponse> resultsList = resultService.getAllResults();
+        return ResponseEntity.ok(resultsList);
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/student")
 @RequiredArgsConstructor
@@ -23,6 +25,12 @@ public class StudentController {
         var savedStudent = studentService.registerStudent(studentRequest);
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
 
+    }
+
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<StudentResponse>> getAllStudents(){
+        List<StudentResponse> studentsList = studentService.getAllStudents();
+        return ResponseEntity.ok(studentsList);
     }
 
 }

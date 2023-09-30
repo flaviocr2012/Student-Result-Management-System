@@ -23,5 +23,5 @@ public class Result {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    private Course course;
+    private Course courseName;
 }
