@@ -17,8 +17,10 @@ public class ResultResponse {
 
     private Long id;
 
-    private ScoreEnum score;
+    private Course course;
 
-    private Course courseName;
+    private Student student;
+
+    private ScoreEnum score;
 
 }

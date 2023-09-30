@@ -27,11 +27,9 @@ public class Student {
     private Long id;
 
     @Column(name = "first_name")
-    @NotBlank(message = "First name is required")
     private String firstName;
 
     @Column(name = "family_name")
-    @NotBlank(message = "Family name is required")
     private String familyName;
 
     @NotNull(message = "Date of birth is required")
@@ -43,6 +41,5 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Result> results;
-
 
 }

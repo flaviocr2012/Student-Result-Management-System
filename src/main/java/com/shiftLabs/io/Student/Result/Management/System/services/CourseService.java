@@ -21,8 +21,8 @@ public class CourseService {
     private final ModelMapper modelMapper;
 
     public CourseResponse registerCourse(CourseRequest courseRequest) {
-        var course = mapCourse(courseRequest);
-        Course savedCourse = (Course) courseRepository.save(course);
+        Course course = mapCourse(courseRequest);
+        Course savedCourse = courseRepository.save(course);
         return modelMapper.map(savedCourse, CourseResponse.class);
     }
 
@@ -41,7 +41,7 @@ public class CourseService {
         });
     }
 
-    private CourseResponse mapCourse(CourseRequest courseRequest) {
-        return modelMapper.map(courseRequest, CourseResponse.class);
+    private Course mapCourse(CourseRequest courseRequest) {
+        return modelMapper.map(courseRequest, Course.class);
     }
 }

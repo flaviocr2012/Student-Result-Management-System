@@ -18,15 +18,15 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private ScoreEnum score;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @Enumerated(EnumType.STRING)
+    private ScoreEnum score;
 
 }

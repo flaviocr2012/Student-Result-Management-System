@@ -2,7 +2,6 @@ package com.shiftLabs.io.Student.Result.Management.System.controllers;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.ResultRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.ResultResponse;
-import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
 import com.shiftLabs.io.Student.Result.Management.System.services.ResultService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class ResultController {
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<ResultResponse>> getAllResults(){
-        List<ResultResponse> resultsList = resultService.getAllResults();
+        List<ResultResponse> resultsList = resultService.retrieveResultsList();
         return ResponseEntity.ok(resultsList);
     }
 
