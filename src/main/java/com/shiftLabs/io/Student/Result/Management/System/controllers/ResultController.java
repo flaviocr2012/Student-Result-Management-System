@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class ResultController {
 
-    private ResultService resultService;
+    private final ResultService resultService;
 
     @PostMapping(produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ResultResponse> createResult(
             @RequestBody @Valid ResultRequest resultRequest) {
         var savedResult = resultService.registerResult(resultRequest);
-        return new ResponseEntity<>(savedResult.getStatusCode());
+        return new ResponseEntity<>(savedResult, HttpStatus.CREATED);
     }
-
-
 
 }

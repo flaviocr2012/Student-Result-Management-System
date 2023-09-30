@@ -14,17 +14,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CourseService {
 
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
-    private ModelMapper modelMapper;
-    public ResponseEntity<CourseResponse> registerCourse(CourseRequest courseRequest) {
-        return Optional.ofNullable(courseRequest)
-                .map(this::mapCourse)
-                .map(courseRepository::save)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
+    private final ModelMapper modelMapper;
+
+    public CourseResponse registerCourse(CourseRequest courseRequest) {
+        var course = mapCourse(courseRequest);
+        var savedCourse = courseRepository.save(course);
+        return modelMapper.map(savedCourse, CourseResponse.class);
     }
-
     private CourseResponse mapCourse(CourseRequest courseRequest){
         return modelMapper.map(courseRequest, CourseResponse.class);
     }

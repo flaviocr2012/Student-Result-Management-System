@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class CourseController {
 
-    private CourseService courseService;
+    private final CourseService courseService;
 
     @PostMapping(produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CourseResponse> createCourse(
             @RequestBody @Valid CourseRequest courseRequest){
         var savedCourse = courseService.registerCourse(courseRequest);
-        return new ResponseEntity<>(savedCourse.getStatusCode());
+        return new ResponseEntity<>(savedCourse, HttpStatus.CREATED);
     }
 
 }

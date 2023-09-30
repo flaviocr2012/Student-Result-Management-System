@@ -18,11 +18,10 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping(produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<StudentResponse> createStudent(
             @RequestBody @Valid StudentRequest studentRequest) {
         var savedStudent = studentService.registerStudent(studentRequest);
-        return new ResponseEntity<>(savedStudent.getStatusCode());
+        return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
 
     }
 

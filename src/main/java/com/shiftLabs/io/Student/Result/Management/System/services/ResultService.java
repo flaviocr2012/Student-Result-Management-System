@@ -14,16 +14,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ResultService {
 
-    private ResultRepository resultRepository;
+    private final ResultRepository resultRepository;
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    public ResponseEntity<ResultResponse> registerResult(ResultRequest resultRequest) {
-        return Optional.ofNullable(resultRequest)
-                .map(this::mapResult)
-                .map(resultRepository::save)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
+    public ResultResponse registerResult(ResultRequest resultRequest) {
+      var result = mapResult(resultRequest);
+      var savedResult = resultRepository.save(result);
+      return modelMapper.map(savedResult, ResultResponse.class);
     }
 
     private ResultResponse mapResult(ResultRequest resultRequest) {

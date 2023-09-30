@@ -14,14 +14,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StudentService {
 
-    private StudentRepository studentRepository;
-    private ModelMapper modelMapper;
-    public ResponseEntity<StudentResponse> registerStudent(StudentRequest studentRequest) {
-        return Optional.ofNullable(studentRequest)
-                .map(this::mapStudent)
-                .map(studentRepository::save)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
+    private final StudentRepository studentRepository;
+
+    private final ModelMapper modelMapper;
+
+    public StudentResponse registerStudent(StudentRequest studentRequest) {
+        var student = mapStudent(studentRequest);
+        var savedStudent = studentRepository.save(student);
+        return modelMapper.map(savedStudent, StudentResponse.class);
 
     }
 
