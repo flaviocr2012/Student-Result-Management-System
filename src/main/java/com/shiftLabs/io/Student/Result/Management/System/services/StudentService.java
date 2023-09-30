@@ -35,6 +35,21 @@ public class StudentService {
 
     }
 
+    public List<StudentResponse> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        return students.stream()
+                .map(student -> modelMapper.map(student, StudentResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public void deleteStudent(Long studentId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        studentOptional.ifPresent(student -> {
+            student.getResults().forEach(result -> result.setStudent(null));
+            studentRepository.delete(student);
+        });
+    }
+
     private boolean isStudentOldEnough(LocalDate dateOfBirth) {
         if (dateOfBirth == null) {
             return false;
@@ -48,10 +63,6 @@ public class StudentService {
         return modelMapper.map(studentRequest, StudentResponse.class);
     }
 
-    public List<StudentResponse> getAllStudents() {
-        List<Student> students = studentRepository.findAll();
-        return students.stream()
-                .map(student -> modelMapper.map(student, StudentResponse.class))
-                .collect(Collectors.toList());
-    }
 }
+
+

@@ -2,7 +2,6 @@ package com.shiftLabs.io.Student.Result.Management.System.controllers;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.CourseRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.CourseResponse;
-import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
 import com.shiftLabs.io.Student.Result.Management.System.services.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +28,14 @@ public class CourseController {
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<CourseResponse>> getAllCourses(){
-        List<CourseResponse> courseList = courseService.getAllCourses();
+        List<CourseResponse> courseList = courseService.retrieveCourseslist();
         return ResponseEntity.ok(courseList);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long courseId){
+        courseService.removeCourse(courseId);
+        return new ResponseEntity<>("Course Deleted Successfully !", HttpStatus.OK);
     }
 
 }

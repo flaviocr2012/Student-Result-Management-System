@@ -2,6 +2,7 @@ package com.shiftLabs.io.Student.Result.Management.System.controllers;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.StudentRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
+import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.services.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,4 +34,12 @@ public class StudentController {
         return ResponseEntity.ok(studentsList);
     }
 
-}
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long studentId){
+        studentService.deleteStudent(studentId);
+        return new ResponseEntity<>("Student Deleted Successfully !", HttpStatus.OK);
+    }
+
+    }
+
+

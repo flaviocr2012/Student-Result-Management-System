@@ -21,7 +21,12 @@ public class Result {
     @Enumerated(EnumType.STRING)
     private ScoreEnum score;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
-    private Course courseName;
+    private Course course;
+
 }
