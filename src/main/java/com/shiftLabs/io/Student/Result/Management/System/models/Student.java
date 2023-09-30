@@ -2,6 +2,9 @@ package com.shiftLabs.io.Student.Result.Management.System.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,11 +27,15 @@ public class Student {
     private Long id;
 
     @Column(name = "first_name")
+    @NotBlank(message = "First name is required")
     private String firstName;
 
     @Column(name = "family_name")
+    @NotBlank(message = "Family name is required")
     private String familyName;
 
+    @NotNull(message = "Date of birth is required")
+    @Past(message = "Date of birth must be in the past")
     private LocalDate dateOfBirth;
 
     @Email
