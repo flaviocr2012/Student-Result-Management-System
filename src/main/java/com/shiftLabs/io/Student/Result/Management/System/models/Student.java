@@ -2,7 +2,6 @@ package com.shiftLabs.io.Student.Result.Management.System.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +28,6 @@ public class Student {
     @Column(name = "family_name")
     private String familyName;
 
-    @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
     private LocalDate dateOfBirth;
 
@@ -38,5 +36,6 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Result> results;
+
 
 }

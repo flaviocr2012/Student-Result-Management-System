@@ -1,7 +1,8 @@
 package com.shiftLabs.io.Student.Result.Management.System.services;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.ResultRequest;
-import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.ResultResponse;
+import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.ResultResponseDto;
+import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.ResultSummaryDTO;
 import com.shiftLabs.io.Student.Result.Management.System.models.Result;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.ResultRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +20,32 @@ public class ResultService {
 
     private final ModelMapper modelMapper;
 
-    public ResultResponse registerResult(ResultRequest resultRequest) {
-      Result result = mapResult(resultRequest);
-      Result savedResult = resultRepository.save(result);
-      return modelMapper.map(savedResult, ResultResponse.class);
+    public ResultResponseDto registerResult(ResultRequest resultRequest) {
+        Result result = mapResult(resultRequest);
+        Result savedResult = resultRepository.save(result);
+
+        ResultResponseDto resultResponseDto = new ResultResponseDto();
+        resultResponseDto.setCourseName(savedResult.getCourse().getCourseName());
+        resultResponseDto.setStudentName(savedResult.getStudent().getFirstName());
+        resultResponseDto.setScore(savedResult.getScore().toString());
+        return resultResponseDto;
     }
 
-    public List<ResultResponse> retrieveResultsList() {
+    public List<ResultSummaryDTO> retrieveResultsList() {
         List<Result> results = resultRepository.findAll();
         return results.stream()
-                .map(result -> modelMapper.map(result, ResultResponse.class))
+                .map(result -> {
+                    ResultSummaryDTO summaryDTO = new ResultSummaryDTO();
+                    summaryDTO.setStudentName(result.getStudent().getFirstName());
+                    summaryDTO.setCourseName(result.getCourse().getCourseName());
+                    summaryDTO.setScore(result.getScore().toString());
+                    return summaryDTO;
+                })
                 .collect(Collectors.toList());
     }
 
     private Result mapResult(ResultRequest resultRequest) {
         return modelMapper.map(resultRequest, Result.class);
     }
-
 
 }
