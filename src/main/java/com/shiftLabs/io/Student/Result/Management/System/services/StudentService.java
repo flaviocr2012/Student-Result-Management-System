@@ -2,6 +2,7 @@ package com.shiftLabs.io.Student.Result.Management.System.services;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.StudentRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.StudentNotFoundException;
 import com.shiftLabs.io.Student.Result.Management.System.models.Result;
 import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.ResultRepository;
@@ -17,6 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.shiftLabs.io.Student.Result.Management.System.constants.ExceptionConstant.STUDENT_MUST_BE_OLDER;
+import static com.shiftLabs.io.Student.Result.Management.System.constants.ExceptionConstant.STUDENT_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class StudentService {
@@ -30,11 +34,11 @@ public class StudentService {
     public StudentResponse registerStudent(StudentRequest studentRequest) {
 
         if (!isStudentOldEnough(studentRequest.getDateOfBirth())) {
-            throw new IllegalArgumentException("Student must be at least 10 years old");
+            throw new IllegalArgumentException(STUDENT_MUST_BE_OLDER);
         }
 
         Student student = mapStudent(studentRequest);
-        Student savedStudent =  studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
         return modelMapper.map(savedStudent, StudentResponse.class);
 
     }
@@ -51,16 +55,17 @@ public class StudentService {
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             studentRepository.delete(student);
-        } else throw new EntityNotFoundException("Student not found with ID: " + studentId);
+        } else throw new StudentNotFoundException(
+                STUDENT_NOT_FOUND + studentId);
     }
 
     public StudentResponse updateStudent(Long studentId, StudentRequest studentRequest) {
         Optional<Student> existingStudentOptional = studentRepository.findById(studentId);
 
-        if(existingStudentOptional.isPresent()){
+        if (existingStudentOptional.isPresent()) {
             Student existingStudent = existingStudentOptional.get();
             existingStudent.setFirstName(studentRequest.getFirstName());
-            Student savedStudent =  studentRepository.save(existingStudent);
+            Student savedStudent = studentRepository.save(existingStudent);
 
             List<Result> resultsToUpdate = resulRepository.findByStudent(existingStudent);
             resultsToUpdate.forEach(result ->
@@ -69,8 +74,9 @@ public class StudentService {
 
             return modelMapper.map(savedStudent, StudentResponse.class);
 
-            } else{
-            throw new EntityNotFoundException("Student not found with ID: " + studentId);
+        } else {
+            throw new StudentNotFoundException(
+                    STUDENT_NOT_FOUND + studentId);
         }
 
     }

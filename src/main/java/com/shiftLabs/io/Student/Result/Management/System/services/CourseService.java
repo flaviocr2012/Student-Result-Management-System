@@ -2,12 +2,11 @@ package com.shiftLabs.io.Student.Result.Management.System.services;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.CourseRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.CourseResponse;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.CourseNotFoundException;
 import com.shiftLabs.io.Student.Result.Management.System.models.Course;
 import com.shiftLabs.io.Student.Result.Management.System.models.Result;
-import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.CourseRepository;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.ResultRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.shiftLabs.io.Student.Result.Management.System.constants.ExceptionConstant.COURSE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +45,8 @@ public class CourseService {
         if (studentOptional.isPresent()) {
             Course course = studentOptional.get();
             courseRepository.delete(course);
-        } else throw new EntityNotFoundException("Course not found with ID: " + courseId);
+        } else throw new CourseNotFoundException(
+                COURSE_NOT_FOUND + courseId);
     }
 
     public CourseResponse updateCourse(Long courseId, CourseRequest updatedCourse) {
@@ -61,7 +63,8 @@ public class CourseService {
 
             return modelMapper.map(savedCourse, CourseResponse.class);
         } else {
-            throw new EntityNotFoundException("Course not found with id: " + courseId);
+            throw new CourseNotFoundException(
+                    COURSE_NOT_FOUND + courseId);
         }
     }
 

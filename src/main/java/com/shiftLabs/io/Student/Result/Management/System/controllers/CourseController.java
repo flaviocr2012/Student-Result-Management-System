@@ -39,10 +39,11 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable("id") Long courseId){
+    public ResponseEntity<Void> deleteById(@PathVariable("id") Long courseId) {
         courseService.removeCourse(courseId);
-        return new ResponseEntity<>("Course Deleted Successfully !", HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<CourseResponse> updateCourse(@PathVariable("id") Long courseId, @RequestBody CourseRequest courseRequest) {

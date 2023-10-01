@@ -41,10 +41,10 @@ public class StudentController {
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteById(@PathVariable("id") Long studentId) {
         studentService.removeStudent(studentId);
-        return new ResponseEntity<>("Student Deleted Successfully !", HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public  ResponseEntity<StudentResponse> updateStudent(@PathVariable("id") Long studentId,@RequestBody StudentRequest studentRequest){
 
         StudentResponse updateStudent = studentService.updateStudent(studentId,studentRequest);
