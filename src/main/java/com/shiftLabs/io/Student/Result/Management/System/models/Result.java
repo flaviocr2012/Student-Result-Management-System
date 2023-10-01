@@ -19,11 +19,11 @@ public class Result {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_name")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_name")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @Enumerated(EnumType.STRING)

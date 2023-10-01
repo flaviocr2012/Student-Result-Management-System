@@ -64,10 +64,10 @@ public class StudentService {
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
 
-            studentRepository.delete(student);
-
             List<Result> resultsToDelete = resultRepository.findByStudent(student);
             resultRepository.deleteAll(resultsToDelete);
+
+            studentRepository.delete(student);
 
         } else {
             throw new StudentNotFoundException(STUDENT_NOT_FOUND + studentId);

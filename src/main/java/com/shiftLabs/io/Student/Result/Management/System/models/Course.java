@@ -22,7 +22,7 @@ public class Course {
 
     private String courseName;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Result> results;
 
 }

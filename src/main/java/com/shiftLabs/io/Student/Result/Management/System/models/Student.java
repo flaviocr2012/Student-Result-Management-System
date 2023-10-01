@@ -37,5 +37,4 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Result> results;
 
-
 }
