@@ -3,7 +3,9 @@ package com.shiftLabs.io.Student.Result.Management.System.services;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.CourseRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.CourseResponse;
 import com.shiftLabs.io.Student.Result.Management.System.models.Course;
+import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.CourseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -34,11 +36,11 @@ public class CourseService {
     }
 
     public void removeCourse(Long courseId) {
-        Optional<Course> courseOptional = courseRepository.findById(courseId);
-        courseOptional.ifPresent(course -> {
-            course.getResults().forEach(result -> result.setCourse(null));
+        Optional<Course> studentOptional = courseRepository.findById(courseId);
+        if (studentOptional.isPresent()) {
+            Course course = studentOptional.get();
             courseRepository.delete(course);
-        });
+        } else throw new EntityNotFoundException("Course not found with ID: " + courseId);
     }
 
     private Course mapCourse(CourseRequest courseRequest) {

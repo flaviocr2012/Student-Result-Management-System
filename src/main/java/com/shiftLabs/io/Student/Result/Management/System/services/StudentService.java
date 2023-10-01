@@ -4,6 +4,7 @@ import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.StudentRe
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
 import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,10 @@ public class StudentService {
 
     public void removeStudent(Long studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
-        studentOptional.ifPresent(student -> {
-            student.getResults().forEach(result -> result.setStudent(null));
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
             studentRepository.delete(student);
-        });
+        } else throw new EntityNotFoundException("Student not found with ID: " + studentId);
     }
 
     private boolean isStudentOldEnough(LocalDate dateOfBirth) {

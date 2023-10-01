@@ -6,6 +6,7 @@ import com.shiftLabs.io.Student.Result.Management.System.services.StudentService
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +38,8 @@ public class StudentController {
         return ResponseEntity.ok(studentsList);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteById(@PathVariable("id") Long studentId){
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteById(@PathVariable("id") Long studentId) {
         studentService.removeStudent(studentId);
         return new ResponseEntity<>("Student Deleted Successfully !", HttpStatus.OK);
     }
