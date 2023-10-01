@@ -3,6 +3,7 @@ package com.shiftLabs.io.Student.Result.Management.System.dtos.requests;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.shiftLabs.io.Student.Result.Management.System.configs.CustomLocalDateDeserializer;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +27,6 @@ public class StudentRequest {
     @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate dateOfBirth;
 
+    @Email
     private String emailAddress;
 }

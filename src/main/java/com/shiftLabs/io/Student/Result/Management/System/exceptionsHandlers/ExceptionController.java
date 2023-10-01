@@ -1,6 +1,7 @@
 package com.shiftLabs.io.Student.Result.Management.System.exceptionsHandlers;
 
 import com.shiftLabs.io.Student.Result.Management.System.exceptions.CourseNotFoundException;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.EmailInvalidException;
 import com.shiftLabs.io.Student.Result.Management.System.exceptions.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,10 @@ public class ExceptionController {
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EmailInvalidException.class)
+    public ResponseEntity<String> handleEmailInvalidException(EmailInvalidException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

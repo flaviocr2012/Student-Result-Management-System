@@ -40,14 +40,22 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    public void removeCourse(Long courseId) {
-        Optional<Course> studentOptional = courseRepository.findById(courseId);
-        if (studentOptional.isPresent()) {
-            Course course = studentOptional.get();
+    public List<Result> removeCourse(Long courseId) {
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isPresent()) {
+            Course course = courseOptional.get();
+
             courseRepository.delete(course);
-        } else throw new CourseNotFoundException(
-                COURSE_NOT_FOUND + courseId);
+
+            List<Result> resultsToDelete = resultRepository.findByCourse(course);
+            resultRepository.deleteAll(resultsToDelete);
+
+            return resultsToDelete;
+        } else {
+            throw new CourseNotFoundException(COURSE_NOT_FOUND + courseId);
+        }
     }
+
 
     public CourseResponse updateCourse(Long courseId, CourseRequest updatedCourse) {
         Optional<Course> existingCourseOptional = courseRepository.findById(courseId);
