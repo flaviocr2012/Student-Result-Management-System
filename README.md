@@ -3,7 +3,7 @@
 # How To run
 
 * Start the application
-* open H2 Data Base in: http://localhost:8080/h2-console
+* Open H2 Data Base in: http://localhost:8080/h2-console
 * Put the username and password (in application.properties file) to connect. 
 
 # How To test
@@ -44,4 +44,4 @@ The solution developed for this project attends to the demanded requirements lik
 * Delete a result;
 * The list of results is updated, after a student or a course is deleted.
 
-Developed the back end side!
+Developed the back end side. Thanks!
