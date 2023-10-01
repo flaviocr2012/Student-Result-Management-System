@@ -44,6 +44,13 @@ public class StudentController {
         return new ResponseEntity<>("Student Deleted Successfully !", HttpStatus.OK);
     }
 
+    @PutMapping("{/id}")
+    public  ResponseEntity<StudentResponse> updateStudent(@PathVariable("id") Long studentId,@RequestBody StudentRequest studentRequest){
+
+        StudentResponse updateStudent = studentService.updateStudent(studentId,studentRequest);
+        return new ResponseEntity<>(updateStudent,HttpStatus.OK);
+    }
+
     }
 
 

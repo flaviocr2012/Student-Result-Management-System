@@ -1,7 +1,9 @@
 package com.shiftLabs.io.Student.Result.Management.System.controllers;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.CourseRequest;
+import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.StudentRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.CourseResponse;
+import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
 import com.shiftLabs.io.Student.Result.Management.System.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,12 @@ public class CourseController {
     public ResponseEntity<String> deleteById(@PathVariable("id") Long courseId){
         courseService.removeCourse(courseId);
         return new ResponseEntity<>("Course Deleted Successfully !", HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseResponse> updateCourse(@PathVariable("id") Long courseId, @RequestBody CourseRequest courseRequest) {
+        CourseResponse updated = courseService.updateCourse(courseId, courseRequest);
+        return ResponseEntity.ok(updated);
     }
 
 }
