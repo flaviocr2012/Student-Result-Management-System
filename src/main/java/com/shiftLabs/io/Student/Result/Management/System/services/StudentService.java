@@ -23,6 +23,7 @@ import static com.shiftLabs.io.Student.Result.Management.System.constants.Except
 @Service
 public class StudentService {
 
+
     private final StudentRepository studentRepository;
     private final ResultRepository resultRepository;
     private final ModelMapper modelMapper;

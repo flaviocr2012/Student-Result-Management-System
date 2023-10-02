@@ -25,4 +25,7 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Result> results;
 
+    public Course(long l, String java) {
+
+    }
 }

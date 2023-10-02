@@ -9,6 +9,7 @@ import com.shiftLabs.io.Student.Result.Management.System.repositories.CourseRepo
 import com.shiftLabs.io.Student.Result.Management.System.repositories.ResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 import static com.shiftLabs.io.Student.Result.Management.System.constants.ExceptionConstant.COURSE_NOT_FOUND;
 
 @Service
-@RequiredArgsConstructor
 public class CourseService {
 
     private final CourseRepository courseRepository;
@@ -26,6 +26,13 @@ public class CourseService {
     private final ResultRepository resultRepository;
 
     private final ModelMapper modelMapper;
+
+    @Autowired
+    public CourseService(CourseRepository courseRepository, ResultRepository resultRepository, ModelMapper modelMapper) {
+        this.courseRepository = courseRepository;
+        this.resultRepository = resultRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public CourseResponse registerCourse(CourseRequest courseRequest) {
         Course course = mapCourse(courseRequest);
@@ -40,7 +47,7 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    public List<Result> removeCourse(Long courseId) {
+    public void removeCourse(Long courseId) {
         Optional<Course> courseOptional = courseRepository.findById(courseId);
         if (courseOptional.isPresent()) {
             Course course = courseOptional.get();
@@ -50,12 +57,10 @@ public class CourseService {
             List<Result> resultsToDelete = resultRepository.findByCourse(course);
             resultRepository.deleteAll(resultsToDelete);
 
-            return resultsToDelete;
         } else {
             throw new CourseNotFoundException(COURSE_NOT_FOUND + courseId);
         }
     }
-
 
     public CourseResponse updateCourse(Long courseId, CourseRequest updatedCourse) {
         Optional<Course> existingCourseOptional = courseRepository.findById(courseId);
@@ -79,6 +84,5 @@ public class CourseService {
     private Course mapCourse(CourseRequest courseRequest) {
         return modelMapper.map(courseRequest, Course.class);
     }
-
 
 }
