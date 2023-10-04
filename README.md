@@ -31,7 +31,7 @@ Some Libs:
 * Jackson
 * ModelMapper
 
-The solution developed for this project attends to the demanded requirements like:
+The solution developed for this project meets the required requirements such as:
 
 * Add new students;
 * Add new courses;
