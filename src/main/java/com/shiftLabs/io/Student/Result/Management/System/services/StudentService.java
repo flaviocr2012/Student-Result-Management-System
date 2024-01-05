@@ -2,7 +2,9 @@ package com.shiftLabs.io.Student.Result.Management.System.services;
 
 import com.shiftLabs.io.Student.Result.Management.System.dtos.requests.StudentRequest;
 import com.shiftLabs.io.Student.Result.Management.System.dtos.responses.StudentResponse;
-import com.shiftLabs.io.Student.Result.Management.System.exceptions.EmailInvalidException;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.InvalidAgeException;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.InvalidDateFormatException;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.InvalidEmailException;
 import com.shiftLabs.io.Student.Result.Management.System.exceptions.StudentNotFoundException;
 import com.shiftLabs.io.Student.Result.Management.System.helpers.EmailValidator;
 import com.shiftLabs.io.Student.Result.Management.System.helpers.StudentHelper;
@@ -10,9 +12,11 @@ import com.shiftLabs.io.Student.Result.Management.System.models.Result;
 import com.shiftLabs.io.Student.Result.Management.System.models.Student;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.ResultRepository;
 import com.shiftLabs.io.Student.Result.Management.System.repositories.StudentRepository;
+import com.shiftLabs.io.Student.Result.Management.System.validator.DateOfBirthValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 import static com.shiftLabs.io.Student.Result.Management.System.constants.ExceptionConstant.*;
 
 @Service
+@Validated
 public class StudentService {
 
 
@@ -28,24 +33,28 @@ public class StudentService {
     private final ResultRepository resultRepository;
     private final ModelMapper modelMapper;
     private final StudentHelper studentHelper;
+    private final DateOfBirthValidator dateOfBirthValidator;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, ResultRepository resultRepository, ModelMapper modelMapper, StudentHelper studentHelper, EmailValidator emailValidator) {
+    public StudentService(StudentRepository studentRepository, ResultRepository resultRepository, ModelMapper modelMapper, StudentHelper studentHelper, DateOfBirthValidator dateOfBirthValidator) {
         this.studentRepository = studentRepository;
         this.resultRepository = resultRepository;
         this.modelMapper = modelMapper;
         this.studentHelper = studentHelper;
+        this.dateOfBirthValidator = dateOfBirthValidator;
     }
 
     public StudentResponse registerStudent(StudentRequest studentRequest) {
 
         if (!studentHelper.isStudentOldEnough(studentRequest.getDateOfBirth())) {
-            throw new IllegalArgumentException(STUDENT_MUST_BE_OLDER);
+            throw new InvalidAgeException(STUDENT_MUST_BE_OLDER);
         }
 
         if (!EmailValidator.isValidEmail(studentRequest.getEmailAddress())) {
-            throw new EmailInvalidException(EMAIL_MUST_BE_VALID);
+            throw new InvalidEmailException(EMAIL_MUST_BE_VALID);
         }
+
+        dateOfBirthValidator.validateDateOfBirth(studentRequest.getDateOfBirth());
 
         Student student = studentHelper.mapStudent(studentRequest);
         Student savedStudent = studentRepository.save(student);
@@ -65,10 +74,11 @@ public class StudentService {
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
 
+            studentRepository.delete(student);
+
             List<Result> resultsToDelete = resultRepository.findByStudent(student);
             resultRepository.deleteAll(resultsToDelete);
 
-            studentRepository.delete(student);
 
         } else {
             throw new StudentNotFoundException(STUDENT_NOT_FOUND + studentId);

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResultSummaryDTO {
 
+    private Long id;
     private String studentName;
     private String courseName;
     private String score;

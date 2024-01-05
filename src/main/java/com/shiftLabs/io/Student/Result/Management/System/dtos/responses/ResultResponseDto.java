@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResultResponseDto {
 
-    private String courseName;
-    private String studentName;
+    private Long id;
+    private String course;
+    private String student;
     private String score;
 }

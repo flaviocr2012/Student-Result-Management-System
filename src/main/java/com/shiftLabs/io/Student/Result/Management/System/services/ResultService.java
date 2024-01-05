@@ -25,8 +25,9 @@ public class ResultService {
         Result savedResult = resultRepository.save(result);
 
         ResultResponseDto resultResponseDto = new ResultResponseDto();
-        resultResponseDto.setCourseName(savedResult.getCourse().getCourseName());
-        resultResponseDto.setStudentName(savedResult.getStudent().getFirstName());
+        resultResponseDto.setId(savedResult.getId());
+        resultResponseDto.setCourse(savedResult.getCourse().getCourseName());
+        resultResponseDto.setStudent(savedResult.getStudent().getFirstName());
         resultResponseDto.setScore(savedResult.getScore().toString());
         return resultResponseDto;
     }
@@ -36,6 +37,7 @@ public class ResultService {
         return results.stream()
                 .map(result -> {
                     ResultSummaryDTO summaryDTO = new ResultSummaryDTO();
+                    summaryDTO.setId(result.getId());
                     summaryDTO.setStudentName(result.getStudent().getFirstName());
                     summaryDTO.setCourseName(result.getCourse().getCourseName());
                     summaryDTO.setScore(result.getScore().toString());

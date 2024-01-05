@@ -23,7 +23,7 @@ public class StudentRequest {
 
     private String familyName;
 
-    @JsonFormat(pattern = "MM/dd/yyyy")
+//    @JsonFormat(pattern = "MM/dd/yyyy")
     @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate dateOfBirth;
 

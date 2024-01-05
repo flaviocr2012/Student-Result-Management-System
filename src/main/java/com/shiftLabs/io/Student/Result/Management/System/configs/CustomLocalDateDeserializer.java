@@ -3,10 +3,13 @@ package com.shiftLabs.io.Student.Result.Management.System.configs;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.shiftLabs.io.Student.Result.Management.System.exceptions.InvalidDateFormatException;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import static com.shiftLabs.io.Student.Result.Management.System.constants.ExceptionConstant.DATE_OF_BIRTH_MUST_BE_VALID;
 
 public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
@@ -18,7 +21,7 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
         try {
             return LocalDate.parse(dateString, DATE_FORMATTER);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid date format: " + dateString, e);
+            throw new InvalidDateFormatException(DATE_OF_BIRTH_MUST_BE_VALID);
         }
     }
 }
